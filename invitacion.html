@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B1629">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<title>Te han invitado a una lista · Runlist</title>
+<meta name="description" content="Únete a una lista de la compra compartida en Runlist.">
+<meta name="robots" content="noindex">
+<style>
+  .invite { text-align: center; padding: 48px 0 120px; max-width: 520px; }
+  .invite svg.mark { width: 56px; height: 77px; margin-bottom: 32px; }
+  .invite h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 600; margin: 0 0 16px; }
+  .invite p { color: var(--muted); margin: 0 auto 32px; }
+  .code {
+    display: inline-flex; align-items: center; gap: 16px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 18px; padding: 16px 16px 16px 24px; margin-bottom: 40px;
+  }
+  .code output { font-size: 26px; font-weight: 600; letter-spacing: 0.08em; }
+  .steps { text-align: left; color: var(--muted); padding-left: 22px; margin: 0 auto; max-width: 400px; }
+  .steps li { margin: 10px 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Runlist, inicio">
+      <svg viewBox="23 6 60 82" aria-hidden="true"><path d="M28 82 V48 C28 39 34 34 43 34 H50 C58 34 65 28 65 20 C65 13 60 10 55.5 12 C51.5 14 50 18 50 23 V70 C50 79 57 85.4 63 79 L78 63" fill="none" stroke="#8AA8DF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      runlist
+    </a>
+  </div>
+</header>
+<main class="wrap invite">
+  <svg class="mark" viewBox="23 6 60 82" aria-hidden="true"><path d="M28 82 V48 C28 39 34 34 43 34 H50 C58 34 65 28 65 20 C65 13 60 10 55.5 12 C51.5 14 50 18 50 23 V70 C50 79 57 85.4 63 79 L78 63" fill="none" stroke="#8AA8DF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <h1>Te han invitado a una lista</h1>
+  <p>Con Runlist compartís la lista de la compra: lo que uno apunta, el otro lo ve al momento.</p>
+
+  <div class="code" id="bloque-codigo" hidden>
+    <output id="codigo" aria-label="Código de la lista"></output>
+    <button class="glass" id="copiar" type="button">Copiar</button>
+  </div>
+
+  <ol class="steps">
+    <li>Instala Runlist en tu móvil. Llegará muy pronto a iOS y Android.</li>
+    <li>Ábrela y toca <strong>Unirme a una lista con un código</strong>.</li>
+    <li>Pega el código y listo.</li>
+  </ol>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Runlist</span>
+    <nav aria-label="Información legal">
+      <a href="/privacidad">Privacidad</a>
+      <a href="/borrar-cuenta">Borrar cuenta</a>
+      <a href="mailto:runlist.app.dev@gmail.com">Contacto</a>
+    </nav>
+    <p class="credits">Datos de productos de <a href="https://world.openfoodfacts.org">Open Food Facts</a>, bajo licencia ODbL.</p>
+  </div>
+</footer>
+<script>
+(function () {
+  // El codigo llega en la ruta (/i/CODIGO) o como parametro (?c=CODIGO).
+  // Solo se aceptan letras y numeros: nunca se pinta nada que venga de la URL sin filtrar.
+  var desdeRuta = location.pathname.split('/i/')[1] || '';
+  var desdeParam = new URLSearchParams(location.search).get('c') || '';
+  var codigo = (desdeRuta || desdeParam).replace(/[^A-Za-z0-9]/g, '').slice(0, 32);
+  if (!codigo) return;
+
+  document.getElementById('codigo').textContent = codigo;
+  document.getElementById('bloque-codigo').hidden = false;
+
+  var boton = document.getElementById('copiar');
+  boton.addEventListener('click', function () {
+    navigator.clipboard.writeText(codigo).then(function () {
+      boton.textContent = 'Copiado';
+      setTimeout(function () { boton.textContent = 'Copiar'; }, 2000);
+    });
+  });
+})();
+</script>
+</body>
+</html>

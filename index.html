@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Runlist · La compra, en el orden de tu súper</title>
+<meta name="description" content="Apunta lo que falta como en una nota. Al llegar a la tienda, Runlist ordena tu lista por pasillos para que la recorras de una vez.">
+<meta name="theme-color" content="#0B1629">
+<meta property="og:title" content="Runlist">
+<meta property="og:description" content="La compra, en el orden de tu súper.">
+<meta property="og:image" content="/assets/og-image.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  /* --- Portada ------------------------------------------------------------ */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: clamp(40px, 9vh, 96px) 0 clamp(72px, 12vh, 128px);
+  }
+  .hero::before {
+    /* luz tenue y fija detras de la marca: profundidad sin decorar */
+    content: "";
+    position: absolute; inset: -10% 0 auto;
+    height: 640px;
+    background: radial-gradient(closest-side, rgba(138, 168, 223, 0.13), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-mark { position: relative; width: 112px; height: 153px; margin: 0 auto 40px; display: block; }
+  .hero-mark path {
+    fill: none; stroke: var(--accent); stroke-width: 9;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .hero h1 {
+    position: relative;
+    font-size: clamp(42px, 7.4vw, 84px);
+    line-height: 1.02; letter-spacing: -0.035em; font-weight: 600;
+    margin: 0 auto 24px; max-width: 13ch;
+    text-wrap: balance;
+  }
+  .hero .lead {
+    position: relative;
+    color: var(--muted); font-size: clamp(18px, 2.2vw, 21px);
+    max-width: 46ch; margin: 0 auto 40px;
+    text-wrap: pretty;
+  }
+
+  /* El trazo se dibuja solo; luego aparece el texto */
+  .js .hero-mark path { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); }
+  .js .hero-reveal { opacity: 0; filter: blur(6px); transform: translateY(6px); }
+  .drawn .hero-mark path { stroke-dashoffset: 0; transition: stroke-dashoffset 1.9s cubic-bezier(0.65, 0, 0.35, 1); }
+  .drawn .hero-reveal {
+    opacity: 1; filter: blur(0); transform: none;
+    transition: opacity 900ms var(--ease), filter 900ms var(--ease), transform 900ms var(--ease);
+  }
+  .drawn .d1 { transition-delay: 1.15s; }
+  .drawn .d2 { transition-delay: 1.35s; }
+  .drawn .d3 { transition-delay: 1.55s; }
+
+  /* --- Demostracion ----------------------------------------------------- */
+  .demo {
+    display: grid; gap: 56px; align-items: center;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+    padding: 48px 0 120px;
+  }
+  .demo h2, .features h2, .closing h2 {
+    font-size: clamp(32px, 4.6vw, 52px); line-height: 1.06;
+    letter-spacing: -0.03em; font-weight: 600; margin: 0 0 20px;
+  }
+  .demo p { color: var(--muted); max-width: 42ch; margin: 0 0 32px; }
+
+  .phone {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 40px;
+    padding: 28px 22px 26px;
+    box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.6);
+  }
+  .phone-title { display: flex; align-items: baseline; justify-content: space-between; margin: 0 6px 18px; }
+  .phone-title strong { font-size: 26px; letter-spacing: -0.02em; font-weight: 600; }
+  .phone-title span { color: var(--subtle); font-size: 14px; transition: color 400ms var(--ease); }
+  .ordered .phone-title span { color: var(--accent); }
+
+  .shopping { position: relative; list-style: none; margin: 0; padding: 0; transition: height 700ms var(--ease); }
+  .shopping > li {
+    position: absolute; left: 0; right: 0; top: 0;
+    transition: transform 750ms var(--ease), opacity 500ms var(--ease);
+    will-change: transform;
+  }
+  .item {
+    display: flex; align-items: center; gap: 14px;
+    height: 46px; padding: 0 6px;
+    font-size: 18px;
+  }
+  .item::before {
+    content: ""; flex: none;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid rgba(201, 214, 239, 0.35);
+  }
+  .aisle {
+    height: 34px; display: flex; align-items: flex-end; padding: 0 6px 6px;
+    color: var(--accent); font-size: 14px; font-weight: 500;
+    opacity: 0;
+  }
+  .ordered .aisle { opacity: 1; }
+
+  .demo-actions { margin-top: 22px; display: flex; justify-content: center; }
+
+  /* --- Lo que hace -------------------------------------------------------- */
+  .features { padding: 40px 0 120px; }
+  .features h2 { max-width: 16ch; margin-bottom: 56px; }
+  .feature-grid {
+    display: grid; gap: 48px 64px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .feature svg {
+    width: 28px; height: 28px; margin-bottom: 18px;
+    fill: none; stroke: var(--accent); stroke-width: 1.75;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .feature h3 { font-size: 22px; letter-spacing: -0.01em; font-weight: 600; margin: 0 0 8px; }
+  .feature p { color: var(--muted); margin: 0; max-width: 40ch; }
+
+  /* --- Cierre ------------------------------------------------------------- */
+  .closing { text-align: center; padding: 40px 0 128px; }
+  .closing svg { width: 44px; height: 60px; margin-bottom: 28px; }
+  .closing svg path { fill: none; stroke: var(--accent); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+  .closing p { color: var(--muted); margin: 0 auto 32px; max-width: 40ch; }
+
+  @media (max-width: 820px) {
+    .demo { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-bottom: 96px; }
+    .feature-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Runlist, inicio">
+      <svg viewBox="23 6 60 82" aria-hidden="true"><path d="M28 82 V48 C28 39 34 34 43 34 H50 C58 34 65 28 65 20 C65 13 60 10 55.5 12 C51.5 14 50 18 50 23 V70 C50 79 57 85.4 63 79 L78 63" fill="none" stroke="#8AA8DF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      runlist
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="titulo">
+    <div class="wrap">
+      <svg class="hero-mark" viewBox="23 6 60 82" aria-hidden="true">
+        <path id="trazo" d="M28 82 V48 C28 39 34 34 43 34 H50 C58 34 65 28 65 20 C65 13 60 10 55.5 12 C51.5 14 50 18 50 23 V70 C50 79 57 85.4 63 79 L78 63"/>
+      </svg>
+      <h1 id="titulo" class="hero-reveal d1">La compra, en el orden de tu súper.</h1>
+      <p class="lead hero-reveal d2">Apunta lo que falta como en una nota. Al llegar a la tienda, Runlist ordena la lista por pasillos para que la recorras de una vez, sin volver atrás.</p>
+      <p class="hero-reveal d3"><span class="glass" aria-disabled="true">Muy pronto en iOS y Android</span></p>
+    </div>
+  </section>
+
+  <section class="wrap demo" aria-labelledby="titulo-demo">
+    <div>
+      <h2 id="titulo-demo">Escribes como siempre. Compras en orden.</h2>
+      <p>Nadie apunta la compra pensando en los pasillos. No hace falta: tú la escribes como te vienen las cosas, y al entrar en el súper la lista se recoloca según el recorrido de esa tienda.</p>
+    </div>
+    <div>
+      <div class="phone" id="demo">
+        <div class="phone-title">
+          <strong>Semanal</strong>
+          <span id="demo-estado">Como la escribiste</span>
+        </div>
+        <ul class="shopping" id="lista" aria-live="polite"></ul>
+      </div>
+      <div class="demo-actions">
+        <button class="glass" id="ordenar" type="button" aria-pressed="false">Ordenar por pasillos</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap features" aria-labelledby="titulo-features">
+    <h2 id="titulo-features">Pensada para el súper de verdad.</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>
+        <h3>Cada súper, su recorrido</h3>
+        <p>El orden no es genérico: es el de la tienda donde estás. Quien conoce un súper lo corrige, y todos los que compran allí lo aprovechan.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9.5" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M15.5 14.2c3 .1 5.5 2.5 5.5 5.8"/></svg>
+        <h3>Una lista para toda la casa</h3>
+        <p>Compártela con un enlace. Lo que uno apunta, los demás lo ven al momento, y lo que uno tacha en la tienda desaparece de la lista de todos.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0"/><path d="M5.5 12a10 10 0 0 1 13 0"/><path d="M9 15.5a5 5 0 0 1 6 0"/><path d="M3 3l18 18"/></svg>
+        <h3>Funciona sin cobertura</h3>
+        <p>Dentro del súper casi nunca hay red. La lista, el recorrido y las fotos de los productos ya están en tu móvil antes de entrar.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+        <h3>Productos reales, con su foto</h3>
+        <p>Busca la marca que compras de siempre, también las marcas blancas, y encuéntrala en el estante a la primera.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap closing" aria-labelledby="titulo-cierre">
+    <svg viewBox="23 6 60 82" aria-hidden="true"><path d="M28 82 V48 C28 39 34 34 43 34 H50 C58 34 65 28 65 20 C65 13 60 10 55.5 12 C51.5 14 50 18 50 23 V70 C50 79 57 85.4 63 79 L78 63"/></svg>
+    <h2 id="titulo-cierre">Menos vueltas por el súper.</h2>
+    <p>Runlist llegará pronto a iPhone y Android. Si quieres probarla antes que nadie, escríbenos.</p>
+    <a class="glass" href="mailto:runlist.app.dev@gmail.com?subject=Quiero%20probar%20Runlist">Quiero probarla</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Runlist</span>
+    <nav aria-label="Información legal">
+      <a href="/privacidad">Privacidad</a>
+      <a href="/borrar-cuenta">Borrar cuenta</a>
+      <a href="mailto:runlist.app.dev@gmail.com">Contacto</a>
+    </nav>
+    <p class="credits">Datos de productos de <a href="https://world.openfoodfacts.org">Open Food Facts</a>, bajo licencia ODbL.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // --- El logo se dibuja de un solo trazo --------------------------------
+  var trazo = document.getElementById('trazo');
+  var len = Math.ceil(trazo.getTotalLength()) + 2;
+  trazo.style.setProperty('--len', len);
+  if (reduce) {
+    document.documentElement.classList.add('drawn');
+  } else {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { document.documentElement.classList.add('drawn'); });
+    });
+  }
+
+  // --- La lista que se ordena por pasillos -------------------------------
+  var pasillos = [
+    { id: 'frutas', nombre: 'Frutas y verduras' },
+    { id: 'pan', nombre: 'Panadería' },
+    { id: 'lacteos', nombre: 'Lácteos' },
+    { id: 'pasta', nombre: 'Pasta y arroz' },
+    { id: 'limpieza', nombre: 'Limpieza' }
+  ];
+  // en el orden en que alguien la apuntaria de verdad
+  var productos = [
+    ['Leche', 'lacteos'], ['Pan', 'pan'], ['Detergente', 'limpieza'], ['Plátanos', 'frutas'],
+    ['Pasta', 'pasta'], ['Yogures', 'lacteos'], ['Tomates', 'frutas'], ['Papel higiénico', 'limpieza']
+  ];
+  var FILA = 46, CABECERA = 34, SEPARACION = 8;
+
+  var lista = document.getElementById('lista');
+  var cabeceras = pasillos.map(function (p) {
+    var li = document.createElement('li');
+    li.className = 'aisle';
+    li.setAttribute('aria-hidden', 'true');
+    li.textContent = p.nombre;
+    lista.appendChild(li);
+    return li;
+  });
+  var filas = productos.map(function (p) {
+    var li = document.createElement('li');
+    li.className = 'item';
+    li.textContent = p[0];
+    lista.appendChild(li);
+    return li;
+  });
+
+  function colocar(ordenada) {
+    var y = 0;
+    if (!ordenada) {
+      filas.forEach(function (li, i) {
+        li.style.transform = 'translateY(' + (i * FILA) + 'px)';
+        li.style.transitionDelay = (i * 25) + 'ms';
+      });
+      y = filas.length * FILA;
+    } else {
+      var orden = 0;
+      pasillos.forEach(function (p, pi) {
+        cabeceras[pi].style.transform = 'translateY(' + y + 'px)';
+        cabeceras[pi].style.transitionDelay = (250 + pi * 60) + 'ms';
+        y += CABECERA;
+        productos.forEach(function (prod, i) {
+          if (prod[1] !== p.id) return;
+          filas[i].style.transform = 'translateY(' + y + 'px)';
+          filas[i].style.transitionDelay = (orden++ * 40) + 'ms';
+          y += FILA;
+        });
+        y += SEPARACION;
+      });
+    }
+    lista.style.height = y + 'px';
+    document.getElementById('demo').classList.toggle('ordered', ordenada);
+    document.getElementById('demo-estado').textContent = ordenada ? 'Por pasillos' : 'Como la escribiste';
+    var boton = document.getElementById('ordenar');
+    boton.setAttribute('aria-pressed', String(ordenada));
+    boton.textContent = ordenada ? 'Ver como la escribiste' : 'Ordenar por pasillos';
+  }
+
+  // las cabeceras esperan en su sitio final, invisibles
+  (function () {
+    var y = 0;
+    pasillos.forEach(function (p, pi) {
+      cabeceras[pi].style.transform = 'translateY(' + y + 'px)';
+      y += CABECERA + productos.filter(function (x) { return x[1] === p.id; }).length * FILA + SEPARACION;
+    });
+  })();
+
+  var ordenada = false, tocada = false;
+  colocar(false);
+
+  document.getElementById('ordenar').addEventListener('click', function () {
+    tocada = true;
+    ordenada = !ordenada;
+    colocar(ordenada);
+  });
+
+  // la primera vez que la demostracion entra en pantalla, se ordena sola
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entradas) {
+      if (entradas[0].isIntersecting) {
+        io.disconnect();
+        setTimeout(function () {
+          if (!tocada) { ordenada = true; colocar(true); }
+        }, 700);
+      }
+    }, { threshold: 0.6 });
+    io.observe(document.getElementById('demo'));
+  }
+})();
+</script>
+</body>
+</html>
