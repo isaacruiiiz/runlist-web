@@ -1,4 +1,4 @@
-# Web de Runlist
+# Web de RunList
 
 Web estática alojada en Cloudflare Pages: portada, privacidad, borrado de cuenta
 y la página de los enlaces de invitación (`/i/CODIGO`).
