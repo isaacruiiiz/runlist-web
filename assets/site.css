@@ -100,11 +100,8 @@ a:hover { color: var(--accent-light); }
   html { scroll-behavior: auto; }
 }
 
-/* Texto de los botones que sube desenfocandose al pasar el raton */
-.roll { display: inline-grid; overflow: hidden; }
-.roll > span { grid-area: 1 / 1; transition: transform 420ms var(--ease), filter 420ms var(--ease), opacity 420ms var(--ease); }
-.roll > span + span { transform: translateY(80%); filter: blur(6px); opacity: 0; }
+/* Al pasar el raton, el texto del boton se desenfoca, como en el portfolio */
+.glass .blur-label { transition: filter 0.5s ease-in-out; }
 @media (hover: hover) {
-  .glass:hover .roll > span:first-child { transform: translateY(-80%); filter: blur(6px); opacity: 0; }
-  .glass:hover .roll > span + span { transform: none; filter: blur(0); opacity: 1; }
+  .glass:hover .blur-label { filter: blur(2px); }
 }

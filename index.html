@@ -74,6 +74,7 @@
   .demo p { color: var(--muted); max-width: 42ch; margin: 0 0 32px; }
 
   .phone {
+    overflow: hidden;
     background: var(--surface);
     border: 1px solid var(--hairline);
     border-radius: 40px;
@@ -230,20 +231,15 @@
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Duplica el texto de cada boton para el efecto de rodillo al pasar el raton.
+  // Envuelve el texto de cada boton para desenfocarlo al pasar el raton.
   function rodillo(el) {
-  var texto = el.textContent.trim();
-  el.textContent = '';
-  var caja = document.createElement('span');
-  caja.className = 'roll';
-  var a = document.createElement('span');
-  a.textContent = texto;
-  var b = document.createElement('span');
-  b.textContent = texto;
-  b.setAttribute('aria-hidden', 'true');
-  caja.appendChild(a);
-  caja.appendChild(b);
-  el.appendChild(caja);
-}
+    var texto = el.textContent.trim();
+    el.textContent = '';
+    var etiqueta = document.createElement('span');
+    etiqueta.className = 'blur-label';
+    etiqueta.textContent = texto;
+    el.appendChild(etiqueta);
+  }
 document.querySelectorAll('a.glass, button.glass').forEach(rodillo);
 
   // --- El logo se dibuja de un solo trazo --------------------------------
@@ -320,6 +316,9 @@ document.querySelectorAll('a.glass, button.glass').forEach(rodillo);
         y += SEPARACION;
       });
     }
+    // Al contraer, la tarjeta espera a que los productos suban antes de
+    // encoger: si encoge antes, los ultimos quedan fuera, flotando.
+    lista.style.transitionDelay = ordenada ? '0ms' : '450ms';
     lista.style.height = y + 'px';
     document.getElementById('demo').classList.toggle('ordered', ordenada);
     document.getElementById('demo-estado').textContent = ordenada ? 'Por pasillos' : 'Como la escribiste';
