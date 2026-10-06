@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0B1629">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=3">
 <title>Privacidad · RunList</title>
 <meta name="description" content="Qué datos trata RunList, para qué y cómo ejercer tus derechos.">
 </head>
@@ -21,45 +21,50 @@
 </header>
 <main class="wrap prose">
   <h1>Privacidad</h1>
-  <p class="updated">Última actualización: 4 de octubre de 2026</p>
+  <p class="updated">Última actualización: 6 de octubre de 2026</p>
 
   <p>RunList es una app de lista de la compra. Para funcionar necesita guardar algunos datos tuyos. Aquí te contamos cuáles, para qué, con quién se comparten y qué puedes hacer con ellos, sin letra pequeña.</p>
 
   <h2>Quién es el responsable</h2>
-  <p>El responsable del tratamiento es <strong>Isaac Ruiz</strong>, desarrollador de RunList. Para cualquier cuestión sobre tus datos puedes escribir a <a href="mailto:RunList.app.dev@gmail.com">RunList.app.dev@gmail.com</a>.</p>
+  <p>El responsable del tratamiento es Isaac Ruiz, desarrollador de RunList. Para cualquier cuestión sobre tus datos puedes escribir a <a href="mailto:runlist.app.dev@gmail.com">runlist.app.dev@gmail.com</a>.</p>
 
   <h2>Qué datos tratamos</h2>
   <ul>
-    <li><strong>Tu cuenta.</strong> Si creas una, tu email y tu contraseña. La contraseña se guarda cifrada por nuestro proveedor de cuentas; nadie, tampoco nosotros, puede leerla. Si usas la app sin cuenta, solo se crea un identificador anónimo.</li>
+    <li><strong>Tu cuenta.</strong> Tu email y tu contraseña. La contraseña se guarda cifrada por nuestro proveedor de cuentas; nadie, tampoco nosotros, puede leerla.</li>
+    <li><strong>Tu perfil, si lo completas.</strong> Tu nombre, tus apellidos y tu foto. Son opcionales.</li>
     <li><strong>Lo que apuntas.</strong> Tus listas, los productos que añades y si los has tachado.</li>
-    <li><strong>Lo que aportas a la comunidad.</strong> Los supermercados que creas y los recorridos que ordenas o corriges. Esta información la ven todos los usuarios, porque es justo lo que permite que el orden de cada súper mejore entre todos, pero no se muestra quién la aportó.</li>
+    <li><strong>Lo que ven las personas con las que compartes una lista.</strong> Quien está contigo en una lista compartida ve tu nombre, tu foto y, si no has puesto nombre, tu email, para saber quién es quién. Nadie más puede verlos.</li>
+    <li><strong>Lo que aportas a la comunidad.</strong> Los supermercados que creas, los recorridos que ordenas o corriges y los problemas que reportas. Los supermercados y recorridos los ven todos los usuarios, porque es justo lo que permite que el orden de cada súper mejore entre todos, pero no se muestra quién los aportó.</li>
     <li><strong>Tu ubicación, solo si das permiso.</strong> Se usa en tu móvil para mostrarte primero los supermercados cercanos, y no se guarda en nuestros servidores. Si marcas en el mapa dónde está un súper, lo que se guarda es la posición de ese súper, no la tuya.</li>
-    <li><strong>Datos técnicos.</strong> Informes de errores para saber cuándo falla la app, y estadísticas de uso anónimas solo si las aceptas.</li>
-    
+    <li><strong>Informes de errores.</strong> Cuando la app falla, se envía un informe técnico: el modelo de móvil, la versión del sistema y el punto del código donde ocurrió el fallo. No incluye tu nombre, tu email ni el contenido de tus listas.</li>
+    <li><strong>Datos de uso, solo si los aceptas.</strong> Cosas como cuántas compras se terminan, cuánto duran, cuántos productos y pasillos tienen o en qué supermercado se hicieron. Van asociados a un identificador aleatorio de tu móvil que no se relaciona con tu cuenta, así que no sabemos de quién son. Nunca incluyen qué productos compras.</li>
   </ul>
 
   <h2>Para qué los usamos</h2>
   <ul>
     <li>Para que la app funcione: guardar tus listas, sincronizarlas entre tus dispositivos y compartirlas con quien tú decidas. La base legal es la prestación del servicio que nos pides.</li>
-    <li>Para mantenerla segura y arreglar fallos. La base legal es nuestro interés legítimo en que la app funcione bien.</li>
-    <li>Para entender cómo se usa y mejorarla, solo si das tu consentimiento, que puedes retirar cuando quieras.</li>
+    <li>Para mantenerla segura, moderar lo que se aporta a la comunidad y arreglar fallos. La base legal es nuestro interés legítimo en que la app funcione bien.</li>
+    <li>Para entender cómo se usa y mejorarla, con los datos de uso, solo si das tu consentimiento. Te lo preguntamos la primera vez que entras y puedes retirarlo cuando quieras en Ajustes.</li>
   </ul>
   <p>No vendemos tus datos, no mostramos publicidad y no los usamos para elaborar perfiles comerciales.</p>
 
   <h2>Con quién se comparten</h2>
   <p>Con nadie para fines propios. Algunos proveedores tratan datos por cuenta nuestra para que la app funcione:</p>
   <ul>
-    <li><strong>Supabase</strong>, donde se guardan las cuentas, las listas y los supermercados. Europa</li>
+    <li><strong>Supabase</strong>, donde se guardan las cuentas, los perfiles, las listas, los supermercados y los datos de uso. Europa</li>
+    <li><strong>Sentry</strong> (Functional Software, Inc.), que recibe los informes de errores, en servidores de la Unión Europea.</li>
     <li><strong>Cloudflare</strong>, que aloja esta web.</li>
     <li><strong>CARTO</strong>, que proporciona los mapas. Cuando ves un mapa en la app, tu móvil descarga imágenes de sus servidores, que reciben tu dirección IP.</li>
+    <li><strong>Google Fonts</strong>, de donde la app descarga su tipografía la primera vez que se abre. Esos servidores reciben tu dirección IP.</li>
   </ul>
   <p>Cuando alguno de ellos trata datos fuera del Espacio Económico Europeo, lo hace con las garantías que exige el Reglamento General de Protección de Datos, como las cláusulas contractuales tipo de la Comisión Europea.</p>
 
   <h2>Cuánto tiempo los guardamos</h2>
-  <p>Mientras tengas la cuenta. Si la borras, eliminamos tus datos en un plazo máximo de 30 días, salvo los recorridos y supermercados que aportaste a la comunidad, que se mantienen sin ninguna relación contigo. Una lista compartida sigue disponible para el resto de personas que la usan.</p>
+  <p>Los datos de tu cuenta, tu perfil y tus listas, mientras tengas la cuenta. Si la borras, los eliminamos en un plazo máximo de 30 días, salvo los recorridos y supermercados que aportaste a la comunidad, que se mantienen sin ninguna relación contigo. Una lista compartida sigue disponible para el resto de personas que la usan.</p>
+  <p>Los informes de errores se conservan un máximo de 90 días. Los datos de uso, como no se relacionan con tu cuenta, se conservan un máximo de 24 meses.</p>
 
   <h2>Tus derechos</h2>
-  <p>Puedes pedirnos acceder a tus datos, corregirlos, borrarlos, llevártelos en un formato estándar, limitar su uso u oponerte a él. Escríbenos a <a href="mailto:RunList.app.dev@gmail.com">RunList.app.dev@gmail.com</a> desde el email de tu cuenta y te responderemos en un plazo máximo de un mes. Para borrar la cuenta tienes también <a href="/borrar-cuenta">una página propia</a>.</p>
+  <p>Puedes pedirnos acceder a tus datos, corregirlos, borrarlos, llevártelos en un formato estándar, limitar su uso u oponerte a él. Escríbenos a <a href="mailto:runlist.app.dev@gmail.com">runlist.app.dev@gmail.com</a> desde el email de tu cuenta y te responderemos en un plazo máximo de un mes. Tu nombre, tus apellidos y tu foto los puedes cambiar o quitar tú mismo en los Ajustes de la app, y para borrar la cuenta tienes también <a href="/borrar-cuenta">una página propia</a>.</p>
   <p>Si crees que no hemos tratado bien tus datos, puedes reclamar ante la <a href="https://www.aepd.es">Agencia Española de Protección de Datos</a>.</p>
 
   <h2>Menores</h2>
@@ -74,7 +79,7 @@
     <nav aria-label="Información legal">
       <a href="/privacidad">Privacidad</a>
       <a href="/borrar-cuenta">Borrar cuenta</a>
-      <a href="mailto:RunList.app.dev@gmail.com">Contacto</a>
+      <a href="mailto:runlist.app.dev@gmail.com">Contacto</a>
     </nav>
     <p class="credits">Datos de productos de <a href="https://world.openfoodfacts.org">Open Food Facts</a>, bajo licencia ODbL.</p>
   </div>
