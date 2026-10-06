@@ -14,7 +14,7 @@
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/assets/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=3">
 <style>
   /* --- Portada ------------------------------------------------------------ */
   .hero {
@@ -240,7 +240,7 @@
     etiqueta.textContent = texto;
     el.appendChild(etiqueta);
   }
-document.querySelectorAll('a.glass, button.glass').forEach(rodillo);
+  document.querySelectorAll('.glass').forEach(rodillo);
 
   // --- El logo se dibuja de un solo trazo --------------------------------
   var trazo = document.getElementById('trazo');

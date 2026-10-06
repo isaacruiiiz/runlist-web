@@ -100,8 +100,13 @@ a:hover { color: var(--accent-light); }
   html { scroll-behavior: auto; }
 }
 
-/* Al pasar el raton, el texto del boton se desenfoca, como en el portfolio */
-.glass .blur-label { transition: filter 0.5s ease-in-out; }
-@media (hover: hover) {
-  .glass:hover .blur-label { filter: blur(2px); }
-}
+/* Al pasar el raton, el texto del boton se desenfoca, como en el portfolio.
+   will-change deja la capa preparada para que el efecto empiece al instante. */
+   .glass .blur-label {
+    display: inline-block;
+    transition: filter 0.5s ease-in-out;
+    will-change: filter;
+  }
+  @media (hover: hover) {
+    .glass:hover .blur-label { filter: blur(2px); }
+  }
