@@ -229,6 +229,22 @@
 <script>
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Duplica el texto de cada boton para el efecto de rodillo al pasar el raton.
+  function rodillo(el) {
+  var texto = el.textContent.trim();
+  el.textContent = '';
+  var caja = document.createElement('span');
+  caja.className = 'roll';
+  var a = document.createElement('span');
+  a.textContent = texto;
+  var b = document.createElement('span');
+  b.textContent = texto;
+  b.setAttribute('aria-hidden', 'true');
+  caja.appendChild(a);
+  caja.appendChild(b);
+  el.appendChild(caja);
+}
+document.querySelectorAll('a.glass, button.glass').forEach(rodillo);
 
   // --- El logo se dibuja de un solo trazo --------------------------------
   var trazo = document.getElementById('trazo');
@@ -277,14 +293,21 @@
   function colocar(ordenada) {
     var y = 0;
     if (!ordenada) {
+      // Al contraer, las cabeceras se van primero y deprisa: si esperan,
+      // los productos pasan por encima y queda texto flotando.
+      cabeceras.forEach(function (li) {
+        li.style.transitionDelay = '0ms';
+        li.style.transition = 'opacity 150ms ease, transform 750ms var(--ease)';
+      });
       filas.forEach(function (li, i) {
         li.style.transform = 'translateY(' + (i * FILA) + 'px)';
-        li.style.transitionDelay = (i * 25) + 'ms';
+        li.style.transitionDelay = (100 + i * 25) + 'ms';
       });
       y = filas.length * FILA;
     } else {
       var orden = 0;
       pasillos.forEach(function (p, pi) {
+        cabeceras[pi].style.transition = '';
         cabeceras[pi].style.transform = 'translateY(' + y + 'px)';
         cabeceras[pi].style.transitionDelay = (250 + pi * 60) + 'ms';
         y += CABECERA;
@@ -303,6 +326,7 @@
     var boton = document.getElementById('ordenar');
     boton.setAttribute('aria-pressed', String(ordenada));
     boton.textContent = ordenada ? 'Ver como la escribiste' : 'Ordenar por pasillos';
+    rodillo(boton);
   }
 
   // las cabeceras esperan en su sitio final, invisibles

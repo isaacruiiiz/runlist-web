@@ -99,3 +99,12 @@ a:hover { color: var(--accent-light); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* Texto de los botones que sube desenfocandose al pasar el raton */
+.roll { display: inline-grid; overflow: hidden; }
+.roll > span { grid-area: 1 / 1; transition: transform 420ms var(--ease), filter 420ms var(--ease), opacity 420ms var(--ease); }
+.roll > span + span { transform: translateY(80%); filter: blur(6px); opacity: 0; }
+@media (hover: hover) {
+  .glass:hover .roll > span:first-child { transform: translateY(-80%); filter: blur(6px); opacity: 0; }
+  .glass:hover .roll > span + span { transform: none; filter: blur(0); opacity: 1; }
+}
