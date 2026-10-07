@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.runlistapp.app",
+      "sha256_cert_fingerprints": [
+        "A0:1A:F5:1D:40:24:63:7B:6D:C4:99:72:38:81:71:12:C0:EA:67:1E:D8:38:1A:C0:A4:A4:F8:2B:D0:20:C7:FC",
+        "78:38:E3:2A:3E:FB:7D:0D:15:03:66:43:D3:EE:4E:5B:C4:03:6E:4C:55:04:43:48:AB:E9:A1:58:FF:05:91:56"
+      ]
+    }
+  }
+]
